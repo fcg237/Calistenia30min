@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calistenia 30 Min</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1, h2 { color: #d90000; }
+    .section { display: none; margin-top: 20px; }
+    img { max-width: 100px; display: block; margin: 10px 0; }
+    button { margin: 5px; padding: 10px 15px; }
+  </style>
+</head>
+<body>
+  <h1>Calistenia 30 Min</h1>
+  <button onclick="showSection('treino')">Iniciar Treino</button>
+  <button onclick="showSection('evolucao')">Ver Evolução</button>
+  <button onclick="showSection('dicas')">Dicas & Alimentação</button>
+
+  <div id="treino" class="section">
+    <h2>Treino da Semana</h2>
+    <select onchange="loadTreino(this.value)">
+      <option value="">Selecione o dia</option>
+      <option value="segunda">Segunda</option>
+      <option value="terca">Terça</option>
+      <option value="quinta">Quinta</option>
+      <option value="sabado">Sábado</option>
+    </select>
+    <div id="exercicios"></div>
+  </div>
+
+  <div id="evolucao" class="section">
+    <h2>Registro de Evolução</h2>
+    <input type="text" id="peso" placeholder="Peso atual (kg)">
+    <button onclick="salvarPeso()">Salvar</button>
+    <ul id="listaPesos"></ul>
+  </div>
+
+  <div id="dicas" class="section">
+    <h2>Dicas & Alimentação</h2>
+    <ul>
+      <li>Beber 2L de água por dia</li>
+      <li>Evitar alimentos processados</li>
+      <li>Inclua proteínas em todas as refeições</li>
+      <li>Salada com tomate e alface</li>
+      <li>Treine por no mínimo 30 minutos, 4x por semana</li>
+    </ul>
+  </div>
+
+  <script>
+    const treinos = {
+      segunda: [
+        { nome: "Agachamento com elástico", img: "agachamento.jpg", rep: "3x12" },
+        { nome: "Avanço alternado", img: "agachamento.jpg", rep: "3x10 por perna" }
+      ],
+      terca: [
+        { nome: "Flexão de braço", img: "flexao.jpg", rep: "3x10-12" },
+        { nome: "Remada com elástico", img: "remada.jpg", rep: "3x12" }
+      ],
+      quinta: [
+        { nome: "Prancha", img: "prancha.jpg", rep: "3x30s" },
+        { nome: "Mountain climbers", img: "prancha.jpg", rep: "3x20" }
+      ],
+      sabado: [
+        { nome: "Full body circuit", img: "agachamento.jpg", rep: "3x15" }
+      ]
+    };
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(div => div.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function loadTreino(dia) {
+      const container = document.getElementById('exercicios');
+      container.innerHTML = "";
+      if (treinos[dia]) {
+        treinos[dia].forEach(ex => {
+          container.innerHTML += `<div><strong>${ex.nome}</strong><br><img src="${ex.img}"><em>${ex.rep}</em></div>`;
+        });
+      }
+    }
+
+    function salvarPeso() {
+      const peso = document.getElementById('peso').value;
+      if (!peso) return;
+      const lista = document.getElementById('listaPesos');
+      const data = new Date().toLocaleDateString();
+      const item = document.createElement('li');
+      item.textContent = `${data}: ${peso} kg`;
+      lista.appendChild(item);
+      document.getElementById('peso').value = '';
+    }
+  </script>
+</body>
+</html>
